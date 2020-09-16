@@ -4,7 +4,7 @@ import * as Jwt from 'jsonwebtoken';
 import {getEnvironmentVariables} from '../environments/env';
 import { v4 as uuidv4 } from 'uuid';
 import { UserValidators } from '../validators/UserValidators';
-
+import constants = require('../config/constant');
 
 export class UserController {
     /***
@@ -29,7 +29,7 @@ export class UserController {
                 // updated_at: new Date()
             };
             let user = await new User(inputData).save();
-            const token = Jwt.sign({username: username, user_id: user._id}, getEnvironmentVariables().jwt_secret, {expiresIn: '120d'});
+            const token = Jwt.sign({username: username, user_id: user._id}, getEnvironmentVariables().jwt_secret, {expiresIn: constants.expiry_tkn});
 
             const data = {token: token};
             res.send({'status_code':200,'message':'succesfully fetch the token', 'result': data});  
